@@ -1,3 +1,2 @@
-[![Build Status](https://travis-ci.org/sboehmann/envconf.svg?branch=master)](https://travis-ci.org/sboehmann/envconf)
-# envconf
+# envconf [![Travis CI Status](https://travis-ci.org/sboehmann/envconf.svg?branch=master)](https://travis-ci.org/sboehmann/envconf)&nbsp;[![Coverage Status](https://coveralls.io/repos/github/sboehmann/envconf/badge.svg?branch=master)](https://coveralls.io/github/sboehmann/envconf?branch=master)
 A Go (golang) library for managing configuration data from environment variables which is used by my Twelve-Factor Apps
