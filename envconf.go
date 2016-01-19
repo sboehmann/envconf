@@ -21,7 +21,7 @@ func prepareKey(key string) string {
 	}
 	key = strings.Replace(key, " ", "_", -1)
 
-	if prefix != "" && !strings.HasPrefix(key, prefix) {
+	if key != "" && prefix != "" {
 		key = prefix + key
 	}
 
@@ -66,22 +66,22 @@ func UnsetKey(key string) {
 	os.Unsetenv(prepareKey(key))
 }
 
+// IssetKey ...
+func IssetKey(key string) bool {
+	_, ok := os.LookupEnv(prepareKey(key))
+	return ok
+}
+
 // SetDefaultString ...
 func SetDefaultString(key string, value string) {
-	if _, ok := os.LookupEnv(prepareKey(key)); !ok {
+	if !IssetKey(key) {
 		SetString(key, value)
 	}
 }
 
 // SetString ...
 func SetString(key string, value string) {
-	key = prepareKey(key)
-
-	if value == "" {
-		os.Unsetenv(key)
-	} else {
-		os.Setenv(key, value)
-	}
+	os.Setenv(prepareKey(key), value)
 }
 
 // GetString ...
