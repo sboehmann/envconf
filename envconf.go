@@ -107,7 +107,7 @@ func MustGetString(key string) (value string) {
 
 // SetDefaultBool ...
 func SetDefaultBool(key string, value bool) {
-	if _, ok := os.LookupEnv(prepareKey(key)); !ok {
+	if !IssetKey(key) {
 		SetBool(key, value)
 	}
 }
@@ -144,7 +144,7 @@ func MustGetBool(key string) (value bool) {
 
 //SetDefaultDuration ...
 func SetDefaultDuration(key string, value time.Duration) {
-	if _, ok := os.LookupEnv(prepareKey(key)); !ok {
+	if !IssetKey(key) {
 		SetDuration(key, value)
 	}
 }
@@ -188,7 +188,7 @@ func MustGetDuration(key string) time.Duration {
 
 // SetDefaultFloat64 ...
 func SetDefaultFloat64(key string, value float64) {
-	if _, ok := os.LookupEnv(prepareKey(key)); !ok {
+	if !IssetKey(key) {
 		SetFloat64(key, value)
 	}
 }
@@ -232,7 +232,7 @@ func MustGetFloat64(key string) float64 {
 
 // SetDefaultInt ...
 func SetDefaultInt(key string, value int) {
-	if _, ok := os.LookupEnv(prepareKey(key)); !ok {
+	if !IssetKey(key) {
 		SetInt(key, value)
 	}
 }
@@ -276,7 +276,7 @@ func MustGetInt(key string) (value int) {
 
 // SetDefaultInt64 ...
 func SetDefaultInt64(key string, value int64) {
-	if _, ok := os.LookupEnv(prepareKey(key)); !ok {
+	if !IssetKey(key) {
 		SetInt64(key, value)
 	}
 }
@@ -320,7 +320,7 @@ func MustGetInt64(key string) (value int64) {
 
 // SetDefaultUInt ...
 func SetDefaultUInt(key string, value uint) {
-	if _, ok := os.LookupEnv(prepareKey(key)); !ok {
+	if !IssetKey(key) {
 		SetUInt(key, value)
 	}
 }
@@ -364,7 +364,7 @@ func MustGetUInt(key string) (value uint) {
 
 // SetDefaultUInt64 ...
 func SetDefaultUInt64(key string, value uint64) {
-	if _, ok := os.LookupEnv(prepareKey(key)); !ok {
+	if !IssetKey(key) {
 		SetUInt64(key, value)
 	}
 }
