@@ -6,9 +6,19 @@ package envconf
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
+
+const EPSILON = float64(0.00000001)
+
+func floatEquals(a, b float64) bool {
+	if (a-b) < EPSILON && (b-a) < EPSILON {
+		return true
+	}
+	return false
+}
 
 func TestPrepareKey(t *testing.T) {
 	assert := assert.New(t)
@@ -221,6 +231,24 @@ func TestDuration(t *testing.T) {
 	assert.False(ok)
 	assert.Zero(v)
 	assert.Panics(func() { MustGetDuration("envconf_test1") })
+
+	SetString("envconf_test1", "15s")
+	v, ok = GetDuration("envconf_test1")
+	assert.True(ok)
+	assert.Equal(15*time.Second, v)
+	assert.Equal(15*time.Second, MustGetDuration("envconf_test1"))
+
+	SetDefaultDuration("envconf_test1", 12*time.Millisecond)
+	v, ok = GetDuration("envconf_test1")
+	assert.True(ok)
+	assert.Equal(15*time.Second, v)
+	assert.Equal(15*time.Second, MustGetDuration("envconf_test1"))
+
+	SetDefaultDuration("envconf_test2", 33*time.Millisecond)
+	v, ok = GetDuration("envconf_test2")
+	assert.True(ok)
+	assert.Equal(33*time.Millisecond, v)
+	assert.Equal(33*time.Millisecond, MustGetDuration("envconf_test2"))
 }
 
 func TestFloat64(t *testing.T) {
@@ -239,6 +267,24 @@ func TestFloat64(t *testing.T) {
 	assert.False(ok)
 	assert.Zero(v)
 	assert.Panics(func() { MustGetFloat64("envconf_test1") })
+
+	SetString("envconf_test1", "83.3")
+	v, ok = GetFloat64("envconf_test1")
+	assert.True(ok)
+	assert.True(floatEquals(83.3, v))
+	assert.True(floatEquals(83.3, MustGetFloat64("envconf_test1")))
+
+	SetDefaultFloat64("envconf_test1", -434.43202)
+	v, ok = GetFloat64("envconf_test1")
+	assert.True(ok)
+	assert.True(floatEquals(83.3, v))
+	assert.True(floatEquals(83.3, MustGetFloat64("envconf_test1")))
+
+	SetDefaultFloat64("envconf_test2", -0.3424562)
+	v, ok = GetFloat64("envconf_test2")
+	assert.True(ok)
+	assert.True(floatEquals(-0.3424562, v))
+	assert.True(floatEquals(-0.3424562, MustGetFloat64("envconf_test2")))
 }
 
 func TestInt(t *testing.T) {
@@ -257,6 +303,24 @@ func TestInt(t *testing.T) {
 	assert.False(ok)
 	assert.Zero(v)
 	assert.Panics(func() { MustGetInt("envconf_test1") })
+
+	SetString("envconf_test1", "42")
+	v, ok = GetInt("envconf_test1")
+	assert.True(ok)
+	assert.Equal(42, v)
+	assert.Equal(42, MustGetInt("envconf_test1"))
+
+	SetDefaultInt("envconf_test1", -5)
+	v, ok = GetInt("envconf_test1")
+	assert.True(ok)
+	assert.Equal(42, v)
+	assert.Equal(42, MustGetInt("envconf_test1"))
+
+	SetDefaultInt("envconf_test2", -33)
+	v, ok = GetInt("envconf_test2")
+	assert.True(ok)
+	assert.Equal(-33, v)
+	assert.Equal(-33, MustGetInt("envconf_test2"))
 }
 
 func TestInt64(t *testing.T) {
@@ -275,6 +339,30 @@ func TestInt64(t *testing.T) {
 	assert.False(ok)
 	assert.Zero(v)
 	assert.Panics(func() { MustGetInt64("envconf_test1") })
+
+	SetString("envconf_test1", "42")
+	v, ok = GetInt64("envconf_test1")
+	assert.True(ok)
+	assert.Equal(int64(42), v)
+	assert.Equal(int64(42), MustGetInt64("envconf_test1"))
+
+	SetDefaultInt64("envconf_test1", int64(-5))
+	v, ok = GetInt64("envconf_test1")
+	assert.True(ok)
+	assert.Equal(int64(42), v)
+	assert.Equal(int64(42), MustGetInt64("envconf_test1"))
+
+	SetDefaultInt64("envconf_test2", int64(-33))
+	v, ok = GetInt64("envconf_test2")
+	assert.True(ok)
+	assert.Equal(int64(-33), v)
+	assert.Equal(int64(-33), MustGetInt64("envconf_test2"))
+
+	SetInt64("envconf_test2", int64(-9223372036854775807))
+	v, ok = GetInt64("envconf_test2")
+	assert.True(ok)
+	assert.Equal(int64(-9223372036854775807), v)
+	assert.Equal(int64(-9223372036854775807), MustGetInt64("envconf_test2"))
 }
 
 func TestUInt(t *testing.T) {
@@ -293,6 +381,30 @@ func TestUInt(t *testing.T) {
 	assert.False(ok)
 	assert.Zero(v)
 	assert.Panics(func() { MustGetUInt("envconf_test1") })
+
+	SetString("envconf_test1", "42")
+	v, ok = GetUInt("envconf_test1")
+	assert.True(ok)
+	assert.Equal(uint(42), v)
+	assert.Equal(uint(42), MustGetUInt("envconf_test1"))
+
+	SetDefaultUInt("envconf_test1", uint(5))
+	v, ok = GetUInt("envconf_test1")
+	assert.True(ok)
+	assert.Equal(uint(42), v)
+	assert.Equal(uint(42), MustGetUInt("envconf_test1"))
+
+	SetDefaultUInt("envconf_test2", uint(33))
+	v, ok = GetUInt("envconf_test2")
+	assert.True(ok)
+	assert.Equal(uint(33), v)
+	assert.Equal(uint(33), MustGetUInt("envconf_test2"))
+
+	SetInt("envconf_test2", -4)
+	v, ok = GetUInt("envconf_test2")
+	assert.False(ok)
+	assert.Equal(uint(0), v)
+	assert.Panics(func() { MustGetUInt("envconf_test2") })
 }
 
 func TestUInt64(t *testing.T) {
@@ -311,4 +423,28 @@ func TestUInt64(t *testing.T) {
 	assert.False(ok)
 	assert.Zero(v)
 	assert.Panics(func() { MustGetUInt64("envconf_test1") })
+
+	SetString("envconf_test1", "42")
+	v, ok = GetUInt64("envconf_test1")
+	assert.True(ok)
+	assert.Equal(uint64(42), v)
+	assert.Equal(uint64(42), MustGetUInt64("envconf_test1"))
+
+	SetDefaultUInt64("envconf_test1", uint64(5))
+	v, ok = GetUInt64("envconf_test1")
+	assert.True(ok)
+	assert.Equal(uint64(42), v)
+	assert.Equal(uint64(42), MustGetUInt64("envconf_test1"))
+
+	SetDefaultUInt64("envconf_test2", uint64(9223372036854775809))
+	v, ok = GetUInt64("envconf_test2")
+	assert.True(ok)
+	assert.Equal(uint64(9223372036854775809), v)
+	assert.Equal(uint64(9223372036854775809), MustGetUInt64("envconf_test2"))
+
+	SetInt("envconf_test2", -4)
+	v, ok = GetUInt64("envconf_test2")
+	assert.False(ok)
+	assert.Equal(uint64(0), v)
+	assert.Panics(func() { MustGetUInt64("envconf_test2") })
 }
