@@ -93,6 +93,11 @@ func TestString(t *testing.T) {
 	assert.False(ok)
 	assert.Empty(str)
 
+	assert.False(IssetKey("envconf_test_0815"))
+	SetString("envconf_test_0815", "")
+	assert.True(IssetKey("envconf_test_0815"))
+	assert.Equal("", MustGetString("envconf_test_0815"))
+
 	SetString("envconf_test_0815", "Foo Bar 42")
 	str, ok = GetString("envconf_test_0815")
 	assert.True(ok)
@@ -132,4 +137,178 @@ func TestString(t *testing.T) {
 	assert.False(IssetKey("envconf_test_3345"))
 
 	assert.Panics(func() { MustGetString("envconf_test_3345") })
+}
+
+func TestBool(t *testing.T) {
+	assert := assert.New(t)
+
+	UnsetKey("envconf_test_bool_1")
+	str, ok := GetString("envconf_test_bool_1")
+	assert.False(ok)
+	assert.Empty(str)
+
+	UnsetKey("envconf_test_bool_2")
+	str, ok = GetString("envconf_test_bool_2")
+	assert.False(ok)
+	assert.Empty(str)
+
+	// Not existing environment variable equals false
+	v, ok := GetBool("envconf_test_bool_1")
+	assert.False(v)
+	assert.True(ok)
+	assert.False(MustGetBool("envconf_test_bool_1"))
+
+	// A empty variable is considered to be true
+	SetString("envconf_test_bool_1", "")
+	v, ok = GetBool("envconf_test_bool_1")
+	assert.True(v)
+	assert.True(ok)
+	assert.True(MustGetBool("envconf_test_bool_1"))
+
+	SetString("envconf_test_bool_1", "1")
+	v, ok = GetBool("envconf_test_bool_1")
+	assert.True(v)
+	assert.True(ok)
+	assert.True(MustGetBool("envconf_test_bool_1"))
+
+	SetString("envconf_test_bool_1", "0")
+	v, ok = GetBool("envconf_test_bool_1")
+	assert.False(v)
+	assert.True(ok)
+	assert.False(MustGetBool("envconf_test_bool_1"))
+
+	SetString("envconf_test_bool_1", "blah")
+	v, ok = GetBool("envconf_test_bool_1")
+	assert.False(v)
+	assert.False(ok)
+	assert.Panics(func() { MustGetBool("envconf_test_bool_1") })
+
+	UnsetKey("envconf_test_bool_1")
+	UnsetKey("envconf_test_bool_2")
+
+	SetBool("envconf_test_bool_1", true)
+	assert.True(MustGetBool("envconf_test_bool_1"))
+	assert.False(MustGetBool("envconf_test_bool_2"))
+
+	SetDefaultBool("envconf_test_bool_1", false)
+	assert.True(MustGetBool("envconf_test_bool_1"))
+	assert.False(MustGetBool("envconf_test_bool_2"))
+
+	SetDefaultBool("envconf_test_bool_2", true)
+	assert.True(MustGetBool("envconf_test_bool_1"))
+	assert.True(MustGetBool("envconf_test_bool_2"))
+
+	SetBool("envconf_test_bool_2", false)
+	SetDefaultBool("envconf_test_bool_1", false)
+	SetDefaultBool("envconf_test_bool_2", false)
+	assert.True(MustGetBool("envconf_test_bool_1"))
+	assert.False(MustGetBool("envconf_test_bool_2"))
+}
+
+func TestDuration(t *testing.T) {
+	assert := assert.New(t)
+
+	UnsetKey("envconf_test1")
+	UnsetKey("envconf_test2")
+
+	v, ok := GetDuration("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetDuration("envconf_test1") })
+
+	SetString("envconf_test1", "blahBlah")
+	v, ok = GetDuration("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetDuration("envconf_test1") })
+}
+
+func TestFloat64(t *testing.T) {
+	assert := assert.New(t)
+
+	UnsetKey("envconf_test1")
+	UnsetKey("envconf_test2")
+
+	v, ok := GetFloat64("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetFloat64("envconf_test1") })
+
+	SetString("envconf_test1", "blahBlah")
+	v, ok = GetFloat64("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetFloat64("envconf_test1") })
+}
+
+func TestInt(t *testing.T) {
+	assert := assert.New(t)
+
+	UnsetKey("envconf_test1")
+	UnsetKey("envconf_test2")
+
+	v, ok := GetInt("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetInt("envconf_test1") })
+
+	SetString("envconf_test1", "blahBlah")
+	v, ok = GetInt("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetInt("envconf_test1") })
+}
+
+func TestInt64(t *testing.T) {
+	assert := assert.New(t)
+
+	UnsetKey("envconf_test1")
+	UnsetKey("envconf_test2")
+
+	v, ok := GetInt64("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetInt64("envconf_test1") })
+
+	SetString("envconf_test1", "blahBlah")
+	v, ok = GetInt64("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetInt64("envconf_test1") })
+}
+
+func TestUInt(t *testing.T) {
+	assert := assert.New(t)
+
+	UnsetKey("envconf_test1")
+	UnsetKey("envconf_test2")
+
+	v, ok := GetUInt("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetUInt("envconf_test1") })
+
+	SetString("envconf_test1", "blahBlah")
+	v, ok = GetUInt("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetUInt("envconf_test1") })
+}
+
+func TestUInt64(t *testing.T) {
+	assert := assert.New(t)
+
+	UnsetKey("envconf_test1")
+	UnsetKey("envconf_test2")
+
+	v, ok := GetUInt64("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetUInt64("envconf_test1") })
+
+	SetString("envconf_test1", "blahBlah")
+	v, ok = GetUInt64("envconf_test1")
+	assert.False(ok)
+	assert.Zero(v)
+	assert.Panics(func() { MustGetUInt64("envconf_test1") })
 }
