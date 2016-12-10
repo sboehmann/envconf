@@ -36,19 +36,20 @@ And now a simple program that uses these variables:
 package main
 
 import (
-	"github.com/sboehmann/envconf"
-	"io"
-	"net/http"
+    "github.com/sboehmann/envconf"
+    "io"
+    "net/http"
 )
 
 func message(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, envconf.GetString("MESSAGE"))
+    value, _ := envconf.GetString("MESSAGE")
+    io.WriteString(w, value)
 }
 
 func main() {
-	envconf.SetPrefix("MY_")
+    envconf.SetPrefix("MY_")
 
-	http.HandleFunc("/", message)
-	http.ListenAndServe(":"+envconf.MustGetString("PORT"), nil)
+    http.HandleFunc("/", message)
+    http.ListenAndServe(":"+envconf.MustGetString("PORT"), nil)
 }
 ```
