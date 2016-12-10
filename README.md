@@ -3,7 +3,7 @@ envconf
 
 A Go (Golang) library for managing configuration data from environment variables which is used by my Twelve-Factor Apps.
 
-[![GoDoc](https://godoc.org/github.com/spf13/hugo?status.svg)](https://godoc.org/github.com/spf13/hugo)&nbsp;[![Travis CI Status](https://travis-ci.org/sboehmann/envconf.svg?branch=master)](https://travis-ci.org/sboehmann/envconf)&nbsp;[![Coverage Status](https://coveralls.io/repos/github/sboehmann/envconf/badge.svg?branch=master)](https://coveralls.io/github/sboehmann/envconf?branch=master)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/sboehmann/envconf)](https://goreportcard.com/report/github.com/sboehmann/envconf)
+[![GoDoc](https://godoc.org/github.com/github/sboehmann/envconf?status.svg)](https://godoc.org/github.com/sboehmann/envconf)&nbsp;[![Travis CI Status](https://travis-ci.org/sboehmann/envconf.svg?branch=master)](https://travis-ci.org/sboehmann/envconf)&nbsp;[![Coverage Status](https://coveralls.io/repos/github/sboehmann/envconf/badge.svg?branch=master)](https://coveralls.io/github/sboehmann/envconf?branch=master)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/sboehmann/envconf)](https://goreportcard.com/report/github.com/sboehmann/envconf)
 
 Installation
 ------------
