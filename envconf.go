@@ -72,19 +72,21 @@ func IssetKey(key string) bool {
     return ok
 }
 
-// SetDefaultString ...
+// SetDefaultString sets the environment if it is not already set.
 func SetDefaultString(key string, value string) {
     if !IssetKey(key) {
         SetString(key, value)
     }
 }
 
-// SetString ...
+// SetString sets the environment.
 func SetString(key string, value string) {
     os.Setenv(prepareKey(key), value)
 }
 
-// GetString ...
+// GetString returns the environment parsed as string.
+// Returns an empty string if the environment does not exists or could not be
+// parsed.
 func GetString(key string) (value string, ok bool) {
     key = prepareKey(key)
 
@@ -95,7 +97,8 @@ func GetString(key string) (value string, ok bool) {
     return "", false
 }
 
-// MustGetString ...
+// MustGetString returns the environment variable parsed as string
+// if possible, otherwise it panics.
 func MustGetString(key string) (value string) {
     value, ok := GetString(key)
     if !ok {
@@ -105,14 +108,14 @@ func MustGetString(key string) (value string) {
     return value
 }
 
-// SetDefaultBool ...
+// SetDefaultBool sets the environment if it is not already set.
 func SetDefaultBool(key string, value bool) {
     if !IssetKey(key) {
         SetBool(key, value)
     }
 }
 
-// SetBool ...
+// SetBool sets the environment.
 func SetBool(key string, value bool) {
     SetString(key, strconv.FormatBool(value))
 }
@@ -127,7 +130,8 @@ func GetBool(key string) (value bool, ok bool) {
     return false, true
 }
 
-// MustGetBool ...
+// MustGetBool returns the environment variable parsed as bool
+// if possible, otherwise it panics.
 func MustGetBool(key string) (value bool) {
     str, ok := GetString(key)
     if ok {
@@ -142,19 +146,19 @@ func MustGetBool(key string) (value bool) {
     return false
 }
 
-//SetDefaultDuration ...
+// SetDefaultDuration sets the environment if it is not already set.
 func SetDefaultDuration(key string, value time.Duration) {
     if !IssetKey(key) {
         SetDuration(key, value)
     }
 }
 
-// SetDuration ...
+// SetDuration sets the environment.
 func SetDuration(key string, value time.Duration) {
     SetString(key, value.String())
 }
 
-// GetDuration ...
+// GetDuration returns the environment parsed as time.Duration.
 func GetDuration(key string) (value time.Duration, ok bool) {
     str, ok := GetString(key)
 
@@ -170,7 +174,8 @@ func GetDuration(key string) (value time.Duration, ok bool) {
     return 0, false
 }
 
-// MustGetDuration  ...
+// MustGetDuration returns the environment variable parsed as time.Duration
+// if possible, otherwise it panics.
 func MustGetDuration(key string) time.Duration {
     str, ok := GetString(key)
 
@@ -186,19 +191,19 @@ func MustGetDuration(key string) time.Duration {
     panic("Environment variable \"" + prepareKey(key) + "\" not found")
 }
 
-// SetDefaultFloat64 ...
+// SetDefaultFloat64 sets the environment if it is not already set.
 func SetDefaultFloat64(key string, value float64) {
     if !IssetKey(key) {
         SetFloat64(key, value)
     }
 }
 
-// SetFloat64 ...
+// SetFloat64 sets the environment.
 func SetFloat64(key string, value float64) {
     SetString(key, strconv.FormatFloat(value, 'f', -1, 64))
 }
 
-// GetFloat64 ...
+// GetFloat64 returns the environment parsed as float64.
 func GetFloat64(key string) (value float64, ok bool) {
     str, ok := GetString(key)
 
@@ -214,7 +219,8 @@ func GetFloat64(key string) (value float64, ok bool) {
     return 0, false
 }
 
-// MustGetFloat64 ...
+// MustGetFloat64 returns the environment variable parsed as float64
+// if possible, otherwise it panics.
 func MustGetFloat64(key string) float64 {
     str, ok := GetString(key)
 
@@ -230,19 +236,19 @@ func MustGetFloat64(key string) float64 {
     panic("Environment variable \"" + prepareKey(key) + "\" not found")
 }
 
-// SetDefaultInt ...
+// SetDefaultInt sets the environment if it is not already set.
 func SetDefaultInt(key string, value int) {
     if !IssetKey(key) {
         SetInt(key, value)
     }
 }
 
-// SetInt ...
+// SetInt sets the environment.
 func SetInt(key string, value int) {
     SetString(key, strconv.FormatInt(int64(value), 10))
 }
 
-// GetInt ...
+// GetInt returns the environment parsed as int.
 func GetInt(key string) (value int, ok bool) {
     str, ok := GetString(key)
 
@@ -258,7 +264,8 @@ func GetInt(key string) (value int, ok bool) {
     return 0, false
 }
 
-// MustGetInt ...
+// MustGetInt returns the environment variable parsed as int
+// if possible, otherwise it panics.
 func MustGetInt(key string) (value int) {
     str, ok := GetString(key)
 
@@ -274,19 +281,19 @@ func MustGetInt(key string) (value int) {
     panic("Environment variable \"" + prepareKey(key) + "\" not found")
 }
 
-// SetDefaultInt64 ...
+// SetDefaultInt64 sets the environment if it is not already set.
 func SetDefaultInt64(key string, value int64) {
     if !IssetKey(key) {
         SetInt64(key, value)
     }
 }
 
-// SetInt64 ...
+// SetInt64 sets the environment.
 func SetInt64(key string, value int64) {
     SetString(key, strconv.FormatInt(value, 10))
 }
 
-// GetInt64 ...
+// GetInt64 returns the environment parsed as int64.
 func GetInt64(key string) (value int64, ok bool) {
     str, ok := GetString(key)
 
@@ -302,7 +309,8 @@ func GetInt64(key string) (value int64, ok bool) {
     return 0, false
 }
 
-// MustGetInt64 ...
+// MustGetInt64 returns the environment variable parsed as int64
+// if possible, otherwise it panics.
 func MustGetInt64(key string) (value int64) {
     str, ok := GetString(key)
 
@@ -318,19 +326,19 @@ func MustGetInt64(key string) (value int64) {
     panic("Environment variable \"" + prepareKey(key) + "\" not found")
 }
 
-// SetDefaultUInt ...
+// SetDefaultUInt sets the environment if it is not already set.
 func SetDefaultUInt(key string, value uint) {
     if !IssetKey(key) {
         SetUInt(key, value)
     }
 }
 
-// SetUInt ...
+// SetUInt sets the environment.
 func SetUInt(key string, value uint) {
     SetString(key, strconv.FormatUint(uint64(value), 10))
 }
 
-// GetUInt ...
+// GetUInt returns the environment parsed as uint.
 func GetUInt(key string) (value uint, ok bool) {
     str, ok := GetString(key)
 
@@ -346,7 +354,8 @@ func GetUInt(key string) (value uint, ok bool) {
     return 0, false
 }
 
-// MustGetUInt ...
+// MustGetUInt returns the environment variable parsed as uint
+// if possible, otherwise it panics.
 func MustGetUInt(key string) (value uint) {
     str, ok := GetString(key)
 
@@ -362,19 +371,19 @@ func MustGetUInt(key string) (value uint) {
     panic("Environment variable \"" + prepareKey(key) + "\" not found")
 }
 
-// SetDefaultUInt64 ...
+// SetDefaultUInt64 sets the environment if it is not already set.
 func SetDefaultUInt64(key string, value uint64) {
     if !IssetKey(key) {
         SetUInt64(key, value)
     }
 }
 
-// SetUInt64 ...
+// SetUInt64 sets the environment.
 func SetUInt64(key string, value uint64) {
     SetString(key, strconv.FormatUint(value, 10))
 }
 
-// GetUInt64 ...
+// GetUInt64 returns the environment parsed as uint64.
 func GetUInt64(key string) (value uint64, ok bool) {
     str, ok := GetString(key)
 
@@ -390,7 +399,8 @@ func GetUInt64(key string) (value uint64, ok bool) {
     return 0, false
 }
 
-// MustGetUInt64 ...
+// MustGetUInt64 returns the environment variable parsed as uint64
+// if possible, otherwise it panics.
 func MustGetUInt64(key string) (value uint64) {
     str, ok := GetString(key)
 
